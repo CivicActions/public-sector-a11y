@@ -1,0 +1,14 @@
+on:
+  push:
+    branches:
+      - main
+jobs:
+  deploy:
+    runs-on: self-hosted
+    steps:
+      - uses: actions/checkout@v1
+      - uses: azure/setup-kubectl@v1
+      - name: Set namespace
+        run: kubectl config set-context --current --namespace=public-sector-a11y
+      - name: Deploy
+        run: kubectl apply -f k8s

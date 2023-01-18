@@ -1,0 +1,16 @@
+apiVersion: serving.knative.dev/v1
+kind: Service
+metadata:
+  name: a11ywatch-frontend
+spec:
+  template:
+    spec:
+      containers:
+        - image: a11ywatch/web:latest
+          ports:
+            - containerPort: 3000
+          env:
+            - name: API
+              value: http://a11ywatch-backend/graphql
+            - name: WEB_SOCKET_URL
+              value: http://a11ywatch-backend/graphql
