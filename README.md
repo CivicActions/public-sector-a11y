@@ -50,11 +50,11 @@ For example, the `a11ywatch-frontend` file deploys resources avaliable at [a11yw
 [Collection API Docs](https://gitlab.com/j-mendez/a11ywatch-clients/-/blob/main/javascript_api_client/docs/ReportsApi.md)
 
 | Method                                                     | HTTP request            | Description                                                           |
-| ---------------------------------------------------------- | ----------------------- | --------------------------------------------------------------------- | --- |
+| ---------------------------------------------------------- | ----------------------- | --------------------------------------------------------------------- |
 | [**crawlWebsiteStream**](ReportsApi.md#crawlWebsiteStream) | **POST** /crawl         | Multi-page crawl a website streaming issues on found                  |
 | [**crawlWebsitesSync**](ReportsApi.md#crawlWebsitesSync)   | **POST** /websites-sync | Multi-page crawl all websites attached to account                     |
 | [**getReport**](ReportsApi.md#getReport)                   | **GET** /report         | Get the report from a previus scan                                    |
-| [**scanWebsite**](ReportsApi.md#scanWebsite)               | **POST** /scan          | Scan a website for issues                                             |     |
+| [**scanWebsite**](ReportsApi.md#scanWebsite)               | **POST** /scan          | Scan a website for issues                                             |
 | [**scanWebsiteSimple**](ReportsApi.md#scanWebsiteSimple)   | **POST** /scan-simple   | Scan a website for issues without storing data and limited responses. |
 
 ##### User API
