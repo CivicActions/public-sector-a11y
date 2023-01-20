@@ -9,3 +9,6 @@ spec:
         - image: a11ywatch/a11ywatch:latest
           ports:
             - containerPort: 3280
+          env:
+            - name: CLIENT_URL
+              value: https://a11ywatch-frontend.public-sector-a11y.app.civicactions.net
