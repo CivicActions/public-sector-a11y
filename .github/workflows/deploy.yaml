@@ -40,6 +40,9 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
+          build-args: |
+            API=https://a11ywatch-backend.public-sector-a11y.app.civicactions.net/graphql
+            WEB_SOCKET_URL=ws://a11ywatch-backend.public-sector-a11y.app.civicactions.net/graphql
 
   deploy:
     runs-on: self-hosted

@@ -9,8 +9,3 @@ spec:
         - image: a11ywatch/web:latest
           ports:
             - containerPort: 3000
-          env:
-            - name: API
-              value: https://a11ywatch-backend.public-sector-a11y.app.civicactions.net/graphql
-            - name: WEB_SOCKET_URL
-              value: ws://a11ywatch-backend.public-sector-a11y.app.civicactions.net/graphql
