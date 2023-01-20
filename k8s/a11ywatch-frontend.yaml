@@ -6,6 +6,6 @@ spec:
   template:
     spec:
       containers:
-        - image: a11ywatch/web:latest
+        - image: ghcr.io/civicactions/public-sector-a11y:main
           ports:
             - containerPort: 3000
