@@ -45,6 +45,7 @@ jobs:
             WEB_SOCKET_URL=ws://a11ywatch-backend.public-sector-a11y.app.civicactions.net/graphql
 
   deploy:
+    needs: build-web
     runs-on: self-hosted
     steps:
       - uses: actions/checkout@v3
