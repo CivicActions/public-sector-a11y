@@ -1,3 +1,7 @@
+#  Based on Publishing and installing a package with GitHub Actions
+# https://docs.github.com/en/packages/managing-github-packages-using-github-actions-workflows/publishing-and-installing-a-package-with-github-actions
+#
+name: Build & Deploy A11yWatch
 on:
   push:
     branches:
@@ -8,6 +12,7 @@ env:
 
 jobs:
   build-web:
+    name: Build Container
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -45,6 +50,7 @@ jobs:
             WEB_SOCKET_URL=ws://a11ywatch-backend.public-sector-a11y.app.civicactions.net/graphql
 
   deploy:
+    name: Deploy to Namespace
     needs: build-web
     runs-on: self-hosted
     steps:
