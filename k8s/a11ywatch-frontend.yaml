@@ -11,6 +11,6 @@ spec:
             - containerPort: 3000
           env:
             - name: API
-              value: https://a11ywatch-backend.public-sector-a11y.app.civicactions.net/graphql
+              value: http://a11ywatch-backend:3280/api
             - name: WEB_SOCKET_URL
-              value: ws://a11ywatch-backend.public-sector-a11y.app.civicactions.net/graphql
+              value: ws://a11ywatch-backend:3280/api
