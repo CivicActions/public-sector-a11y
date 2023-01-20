@@ -24,6 +24,9 @@ jobs:
         with:
           repository: a11ywatch/web
           ref: 22bcd78ba5df25f40cbf99e5e8bd8c3b790674fb
+      
+      - name: TODO: temporarily patch Dockerfile, remove when https://github.com/a11ywatch/web/pull/98 in stable commit.
+        run: curl -so Dockerfile https://raw.githubusercontent.com/grugnog/web/build-args/Dockerfile
 
       - name: Log in to the Container registry
         uses: docker/login-action@f054a8b539a109f9f41c372932f1ae047eff08c9
