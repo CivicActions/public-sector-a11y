@@ -2,6 +2,8 @@
 
 _Proof of concept for large scale, government scans_
 
+[![Build & Deploy A11yWatch](https://github.com/CivicActions/public-sector-a11y/actions/workflows/deploy.yaml/badge.svg)](https://github.com/CivicActions/public-sector-a11y/actions/workflows/deploy.yaml)
+
 ## Overview
 
 ### Project Goals
