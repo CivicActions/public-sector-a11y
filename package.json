@@ -7,5 +7,14 @@
     "test": "exit 0"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/CivicActions/public-sector-a11y.git"
+  },
+  "bugs": {
+    "url": "https://github.com/CivicActions/public-sector-a11y/issues"
+  },
+  "homepage": "https://github.com/CivicActions/public-sector-a11y#readme"
 }
