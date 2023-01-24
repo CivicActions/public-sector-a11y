@@ -8,6 +8,8 @@ on:
   push:
     paths:
       - "data/domains/domains.csv"
+  workflow_dispatch:
+
 jobs:
   sync:
     runs-on: ubuntu-latest
