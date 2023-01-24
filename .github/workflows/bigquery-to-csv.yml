@@ -13,10 +13,10 @@ jobs:
       - name: Authenticate with Google Cloud
         uses: google-github-actions/auth@v1
         with:
-          service_account_key: ${{ secrets.GCR_KEY }}
+          service_account_key: ${{ secrets.GOOGLE_CLOUD_KEY }}
       - name: Export BigQuery table to CSV
         run: |
-          gcloud auth activate-service-account --key-file=${GCR_KEY}
+          gcloud auth activate-service-account --key-file=${GOOGLE_CLOUD_KEY}
           bq --quiet --project_id=${PROJECT_ID} extract --destination_format=CSV ${DATASET}.${TABLE} ${CSV_PATH}
       - name: Commit and push changes
         run: |
