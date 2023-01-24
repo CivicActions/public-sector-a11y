@@ -12,7 +12,7 @@ COPY rust-checker/yarn.lock ./
 
 # Copy the rest of the application's source code to the container
 COPY rust-checker/ .
-COPY package.json yarn.lock ./rust-checker/
+#COPY package.json yarn.lock ./rust-checker/
 
 # Install the dependencies and build the application
 RUN cargo build --release
