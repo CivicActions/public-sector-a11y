@@ -7,10 +7,11 @@ FROM rust:latest as builder
 WORKDIR /usr/src/rust-checker
 
 # Copy the Cargo.toml and Cargo.lock files to the container
-COPY Cargo.* ./
+COPY rust-checker/Cargo.* ./
+COPY rust-checker/yarn.lock ./
 
 # Copy the rest of the application's source code to the container
-COPY . .
+COPY rust-checker/ .
 
 # Install the dependencies and build the application
 RUN cargo build --release
@@ -32,3 +33,4 @@ EXPOSE 8080
 
 # Start the application
 CMD ["./rust-checker"]
+
