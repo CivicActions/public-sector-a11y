@@ -1,4 +1,4 @@
-name: Sync BigQuery and CSV
+name: Sync BigQuery to CSV
 on:
   schedule:
     - cron: "5 1/6 * * *"
