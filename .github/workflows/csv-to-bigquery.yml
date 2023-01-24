@@ -3,12 +3,11 @@
 #
 #
 #
-name: Sync CSV and BigQuery
+name: Push CSV to BigQuery
 on:
   push:
     paths:
       - "data/domains/domains.csv"
-
 jobs:
   sync:
     runs-on: ubuntu-latest
@@ -16,7 +15,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
       - name: Authenticate with Google Cloud
-        uses: google-actions/setup-gcloud@v2
+        uses: google-actions/setup-gcloud@latest
         with:
           service_account_key: ${{ secrets.GOOGLE_CLOUD_KEY }}
       - name: Load CSV to BigQuery
