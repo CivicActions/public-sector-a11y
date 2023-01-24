@@ -1,0 +1,20 @@
+# Config file for Dependency Review
+# Inspo: https://github.com/marketplace/actions/dependency-review
+#
+fail-on-severity: "critical"
+
+# Which licenses are allowed
+allow-licenses:
+  - "GPL-3.0"
+  - "BSD-3-Clause"
+  - "MIT"
+
+# Which licenses are not allowed
+deny-licenses:
+  - "GPL-3.0"
+  - "BSD-3-Clause"
+  - "MIT"
+
+license-check: true
+
+vulnerability-check: true

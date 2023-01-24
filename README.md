@@ -79,3 +79,7 @@ For example, the `a11ywatch-frontend` file deploys resources avaliable at [a11yw
 | [**addWebsite**](WebsitesApi.md#addWebsite)                 | **POST** /website   | Add a website in the collection with form data |
 | [**deleteWebsite**](WebsitesApi.md#deleteWebsite)           | **DELETE** /website | Deletes a website                              |
 | [**getWebsiteByDomain**](WebsitesApi.md#getWebsiteByDomain) | **GET** /website    | Find website by Domain                         |
+
+## Contributing
+
+## License

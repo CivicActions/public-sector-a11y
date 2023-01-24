@@ -1,56 +1,57 @@
 name: 🎪 Epic
 description: Used for questions about RapidATO and the overall project
 title: "Question"
-labels: [🎪 Epic,🤔 Unrefined]
+labels: [🎪 Epic, 🤔 Unrefined]
 body:
-- type: textarea
-  attributes:
-    label: Overview
-    description: A concise description of the big goal/epic
-  validations:
-   required: true
-- type: textarea
-  attributes:
-       label: "#### Problem"
-       description: Describe the problem or pain point that this feature addresses
-  validations:
-    required: true
-- type: textarea
-  attributes:
-         label: "#### Solution | Goal"
-         description: Provide a clear and concise solution to the problem or an overview of what needs to happen
-  validations:
-    required: false
+  - type: textarea
+    attributes:
+      label: Overview
+      description: A concise description of the big goal/epic
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: "Problem"
+      description: Describe the problem or pain point that this feature addresses
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: "Solution | Goal"
+      description: Provide a clear and concise solution to the problem or an overview of what needs to happen
+    validations:
+      required: false
 
-- type: textarea
-  attributes:
-             label: References
-             description: Add any additional information that may be useful in understanding or links to related converstions/issues/repos/etc...
-  validations:
-        required: false
-- type: textarea
-  attributes:
-         label: Acceptance Criteria
-         description: What needs to be completed for this to be considered done?
-         placeholder: |
-           "- [ ] First Thing"
-           "- [ ] Second Thing"
-           "- [ ] Third Thing"
-           "- [ ] Fourth Thing"
-  validations:
-    required: true
-- type: dropdown
-  id: team
-  attributes:
-          label: Team
-          description: Which team should handle this?
-          multiple: true
-          options:
-             - 🖼️ Front End
-             - 🍄 Back End
-             - ⚙️ DevOps
-             - ♿ Accessability
-             - 🏰 Security
-             - Unknown/TBD/Other
-  validations:
-    required: true
+  - type: textarea
+    attributes:
+      label: References
+      description: Add any additional information that may be useful in understanding or links to related converstions/issues/repos/etc...
+    validations:
+      required: false
+  - type: textarea
+    attributes:
+      label: Acceptance Criteria
+      description: What needs to be completed for this to be considered done?
+      placeholder: |
+        "- [ ] First Thing"
+        "- [ ] Second Thing"
+        "- [ ] Third Thing"
+        "- [ ] Fourth Thing"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: team
+    attributes:
+      label: Team
+      description: Which team should handle this?
+      multiple: true
+      options:
+        - 🖼️ Front End
+        - 🍄 Back End
+        - ⚙️ DevOps
+        - ♿ Accessability
+        - 🏰 Security
+        - Unknown/TBD/Other
+    validations:
+      required: true
