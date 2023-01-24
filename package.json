@@ -1,5 +1,5 @@
 {
-  "name": "rust-checker",
+  "name": "public-sector-a11y",
   "version": "1.0.0",
   "description": "Checks A11yWatch APIs and syncs to CA BigQuery",
   "main": "index.js",
