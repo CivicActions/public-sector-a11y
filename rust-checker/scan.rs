@@ -7,6 +7,16 @@
  * Written by: @theBoatyMcBoatFace
  * On: Jan 24, 2023
  */
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+*/
 
 use serde::{Deserialize, Serialize};
  use serde_json::{json, Value};
@@ -17,8 +27,8 @@ use serde::{Deserialize, Serialize};
  use std::fs::File;
  use std::io::Read;
 
- // Define structs to match the schema of the BigQuery tables
- // You'll need to adjust these structs to match the exact fields in your tables
+ // Define structs to match the schema of the BigQuery table
+
  #[derive(Serialize, Deserialize, Debug)]
  struct Scan {
      id: String,
@@ -57,126 +67,83 @@ use serde::{Deserialize, Serialize};
         created_at: String,
      }
 
-#[post("/scan", data = "<scan_form>")]
-fn scan(scan_form: Form<ScanForm>) -> String {
-    // Read the maps.yaml file
-    let mut file = File::open("maps.yaml").expect("Failed to open maps.yaml");
-    let mut contents = String::new();
-    file.read_to_string(&mut contents).expect("Failed to read maps.yaml");
-    let maps: Value = from_str(&contents).expect("Failed to parse maps.yaml");
 
-    // Send the POST request to the external API
-         let client = Client::new();
-         let resp = client
-             .post("https://a11ywatch-backend.public-sector-a11y.app.civicactions.net/api/scan")
-             .json(&scan_form.0)
-             .send()
-             .expect("Failed to send POST request");
-         let json: Value = resp.json().expect("Failed to parse JSON response");
-
-    // Extract the relevant data from the response
-         let scan_data = json["data"].clone();
-         let issues = json["data"]["issues"].clone();
-
-// Prepare data to insert into the 'scans' table
-    let scan = Scan {
-        id: "".to_owned(),
-        created_at: "".to_owned(),
-        updated_at: "".to_owned(),
-        domain: scan_data["domain"].as_str().unwrap().to_owned(),
-        url: scan_data["url"].as_str().unwrap().to_owned(),
-        success: scan_data["success"].as_bool().unwrap(),
-        code: scan_data["code"].as_i64().unwrap() as i32,
-        online: scan_data["online"].as_bool().unwrap(),
-        page_load_duration: scan_data["pageLoadTime"]["duration"].as_i64().unwrap() as i32,
-        page_load_description: scan_data["pageLoadTime"]["durationFormated"]
-            .as_str()
-            .unwrap()
-            .to_owned(),
-        page_load_color: scan_data["pageLoadTime"]["color"].as
-//
-//
-//
-// to-do: fix this area. Params off
-// Need to step away and come back to this area.
-//
-//
 
 #[post("/scan", data = "<scan>")]
 fn scan(scan: Json<Scan>) -> &'static str {
     let client = Client::new();
     let bq = Bigquery::new("ca-a11y");
 
-    let scan_response = client.post("https://a11ywatch-backend.public-sector-a11y.app.civicactions.net/api/scan")
+    // Make API request
+    let resp = client
+        .post("https://a11ywatch-backend.public-sector-a11y.app.civicactions.net/api/scan")
         .json(&scan)
-        .header(reqwest::header::CONTENT_TYPE, "application/json")
+        .header("Content-Type", "application/json")
         .send()
         .unwrap();
-//
-//
-// Formatting is a hot mess. Fix when you get back from walk
-//
-//
-    let scan_data: serde_json::Value = serde_json::from_str(scan_response.text().unwrap().as_str()).unwrap();
 
-    let scan_id = Uuid::new_v4();
+    // Parse response into json
+    let scan_data: Value = serde_json::from_str(resp.text().unwrap().as_str()).unwrap();
 
+    // Insert scan into BigQuery
+    let scan_id = uuid::Uuid::new_v4().to_string();
     let new_scan = Scan {
         id: scan_id.to_string(),
         created_at: Utc::now().to_rfc3339(),
         updated_at: Utc::now().to_rfc3339(),
         domain: scan_data["data"]["domain"].as_str().unwrap().to_owned(),
-        url: scan_data["data"]["url"].
-
+        url: scan_data["data"]["url"].as_str().unwrap().to_owned(),
         success: scan_data["data"]["cdnConnected"].as_bool().unwrap(),
-            code: scan_data["data"]["httpCode"].as_i64().unwrap() as i32,
-            online: scan_data["data"]["online"].as_bool().unwrap(),
-            page_load_duration: scan_data["data"]["pageLoadTime"]["duration"].as_i64().unwrap() as i32,
-            page_load_description: scan_data["data"]["pageLoadTime"]["durationFormated"].as_str().unwrap().to_owned(),
-            page_load_color: scan_data["data"]["pageLoadTime"]["color"].as_str().unwrap().to_owned(),
-            issues_total: scan_data["data"]["issues"].len() as i32,
-            issues_error: scan_data["data"]["issues"].iter().filter(|x| x["type"] == "error").count() as i32,
-            issues_warning: scan_data["data"]["issues"].iter().filter(|x| x["type"] == "warning").count() as i32,
-            issues_notice: scan_data["data"]["issues"].iter().filter(|x| x["type"] == "notice").count() as i32,
-            issues_score: scan_data["data"]["issues"].iter().map(|x| x["typeCode"].as_i64().unwrap() as i32).sum::<i32>()
-        };
-//
-// Yeet data into BigQuery
-//
-        bq.query(&format!("INSERT INTO public_data.scans (id, created_at, updated_at, domain, url, success, code, online, page_load_duration, page_load
+        code: scan_data["data"]["lastScanDate"].as_str().unwrap().to_owned(),
+        online: scan_data["data"]["pageLoadTime"]["duration"].as_i64().unwrap() as i32,
+        page_load_duration: scan_data["data"]["pageLoadTime"]["duration"].as_i64().unwrap() as i32,
+        page_load_description: scan_data["data"]["pageLoadTime"]["durationFormated"]
+            .as_str()
+            .unwrap()
+            .to_owned(),
+        page_load_color: scan_data["data"]["pageLoadTime"]["color"].as_str().unwrap().to_owned(),
+        issues_total: scan_data["data"]["issues"].as i32,
+        issu
 
-       " )
-    }
-    //
-    //
-    //      You messed up the list of fields. Fix me
-    //
-    //
+// Add the rest of the issues... sooo many issues....
 
 
-        let new_scan = Scan {
-            id: scan_id.to_string(),
-            created_at: Utc::now().to_rfc3339(),
-            updated_at: Utc::now().to_rfc3339(),
-            domain: scan_data["data"]["domain"].as_str().unwrap().to_owned(),
-            url: scan_data["data"]["url"].as_str().unwrap().to_owned(),
-            success: scan_data["data"]["cdnConnected"].as_bool().unwrap(),
-            code: scan_data["data"]["code"].as_i64().unwrap() as i32,
-            online: scan_data["data"]["online"].as_bool().unwrap(),
-            page_load_duration: scan_data["data"]["pageLoadTime"]["duration"].as_i64().unwrap() as i32,
-            page_load_description: scan_data["data"]["pageLoadTime"]["durationFormated"].as_str().unwrap().to_owned(),
-            page_load_color: scan_data["data"]["pageLoadTime"]["color"].as_str().unwrap().to_owned(),
-            issues_total: scan_data["data"]["issues"].as_array().unwrap().len() as i32,
-        };
-
-        let insert_scan = bq.query(&format!("INSERT INTO public_data.scans (id, created_at, updated_at, domain, url, success, code, online, page_load_duration, page_load_description, page_load_color, issues_total) VALUES ('{}', '{}', '{}', '{}', '{}', {}, {}, {}, {}, '{}', '{}', {})", new_scan.id, new_scan.created_at, new_scan.updated_at, new_scan.domain, new_scan.url, new_scan.success, new_scan.code, new_scan.online, new_scan.page_load_duration, new_scan.page_load_description, new_scan.page_load_color, new_scan.issues_total)).unwrap();
-
-        // Loop through each issue in the response and insert into BigQuery
-
-// To Do
+issues_error: i32,
+         issues_warning: i32,
+         issues_notice: i32,
+         issues_score: i32
 
 
-//
-//      Pull in SQL from Checky The Checker
+
+    bq.query(&format!("INSERT INTO public_data.scans (id, created_at, updated_at, domain, url, success, code, online, page_load_duration, page_load_description, page_load_color, issues_total, issues_error, issues_warning, issues_notice, issues_score) VALUES ('{}', '{}', '{}', '{}', '{}', {}, {}, {}, {}, '{}', '{}', {}, {}, {}, {}, {})",
+    scan_id.to_string(), Utc::now().to_rfc3339(), Utc::now().to_rfc3339(), scan_data["data"]["domain"].as_str().unwrap().to_owned(), scan_data["data"]["url"].as_str().unwrap().to_owned(), scan_data["data"]["success"].as_bool().unwrap(), scan_data["data"]["code"].as_i64().unwrap(), scan_data["data"]["online"].as_bool().unwrap(), scan_data["data"]["pageLoadTime"]["duration"].as_i64().unwrap() as i32, scan_data["data"]["pageLoadTime"]["durationFormated"].as_str().unwrap().to_owned(), scan_data["data"]["pageLoadTime"]["color"].as_str().unwrap().to_owned(), scan_data["data"]["issues"].as_array().unwrap().len(), scan_error_count, scan_warning_count, scan_notice_count, scan_score
+         )).unwrap();
+        for issue in scan_data["data"]["issues"].as_array().unwrap() {
+        let issue_data = json!({
+            "scan_id": scan_id,
+            "url": issue["url"].as_str().unwrap(),
+            "domain": issue["domain"].as_str().unwrap(),
+            "last_scan_date": issue["lastScanDate"].as_str().unwrap(),
+            "code": issue["code"].as_str().unwrap(),
+            "issue_type": issue["type"].as_str().unwrap(),
+            "issue_type_code": issue["typeCode"].as_i64().unwrap() as i32,
+            "message": issue["message"].as_str().unwrap(),
+            "context": issue["context"].as_str().unwrap(),
+            "selector": issue["selector"].as_str().unwrap(),
+            "runner": issue["runner"].as_str().unwrap(),
+            "recurrence": issue["recurrence"].as_i64().unwrap() as i32,
+            "created_at": Utc::now().to_rfc3339(),
+            "updated_at": Utc::now().to_rfc3339(),
+        });
+
+
+
+
+// Finish breakdown of issue to BigQuery
 //
 //
+//
+
+
+
+
