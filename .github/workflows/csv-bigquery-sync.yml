@@ -1,0 +1,25 @@
+# Syncs CSV file at data/domains/domains.csv to BigQuery Table
+#
+#
+#
+#
+name: Sync CSV and BigQuery
+on:
+  push:
+    paths:
+      - "data/domains/domains.csv"
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Authenticate with Google Cloud
+        uses: google-actions/setup-gcloud@v2
+        with:
+          service_account_key: ${{ secrets.GOOGLE_CLOUD_KEY }}
+      - name: Load CSV to BigQuery
+        run: |
+          gcloud auth activate-service-account --key-file=${GOOGLE_CLOUD_KEY}
+          bq --quiet --project_id=${PROJECT_ID} load --source_format=CSV ${DATASET}.${TABLE} ${CSV_PATH}
