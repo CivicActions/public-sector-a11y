@@ -15,7 +15,11 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
       - name: Authenticate with Google Cloud
+<<<<<<< HEAD
         uses: google-github-actions/auth@v1
+=======
+        uses: google-actions/setup-gcloud@latest
+>>>>>>> a707dc1b75abf1f08f56b2280b619ac3e4435145
         with:
           service_account_key: ${{ secrets.GOOGLE_CLOUD_KEY }}
       - name: Load CSV to BigQuery
