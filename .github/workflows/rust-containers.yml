@@ -1,0 +1,40 @@
+name: Build and Publish Rust Containers
+
+on:
+  push:
+    branches:
+      - main
+
+# Set environment variables for the container registry and image name
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }} # Set as current repo. Can change to alternate if these shifted to another location.
+
+jobs:
+  build-and-publish:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Log in to the Container registry
+        uses: docker/login-action@v2.1.0
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Extract metadata (tags, labels) for Docker
+        id: meta
+        uses: docker/metadata-action@v4.3.0
+        with:
+          images: ${{ env.REGISTRY }}/civic-rust
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v3.3.0
+        with:
+          context: .
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}

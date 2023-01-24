@@ -1,23 +1,34 @@
-# Dockerfile to build the Rust Container
+## Dockerfile to Generate Rust Containers
 
-# Use the official Rust image as the base image
-FROM rust:latest
+# Use the official rust image as the base image
+FROM rust:latest as builder
 
-# Create a new directory for the application
-RUN mkdir /app
+# Set the working directory
+WORKDIR /usr/src/rust-checker
 
-# Copy the application code into the container
-COPY . /app
+# Copy the Cargo.toml and Cargo.lock files to the container
+COPY Cargo.* ./
 
-# Change to the application directory
-WORKDIR /app
+# Copy the rest of the application's source code to the container
+COPY . .
 
-# Build the application with release flags
+# Install the dependencies and build the application
 RUN cargo build --release
 
-# Expose port 8080
+# Use the official alpine image as the base image
+FROM alpine:latest
+
+# Set the working directory
+WORKDIR /usr/src/rust-checker
+
+# Copy the binary from the builder stage
+COPY --from=builder /usr/src/rust-checker/target/release/rust-checker .
+
+# Set the GOOGLE_CLOUD_KEY environment variable
+ENV GOOGLE_CLOUD_KEY="${{ secrets.GOOGLE_CLOUD_KEY }}"
+
+# Expose the port that the application binds to
 EXPOSE 8080
 
-# Run the application
-CMD ["/app/target/release/Rusty-Checks"]
-docker build -t Rusty-Checks@latest .
+# Start the application
+CMD ["./rust-checker"]

@@ -1,7 +1,11 @@
 [package]
 name = "Rusty-Checks"
 version = "0.1.0"
-authors = ["TheBoatyMcBoatFace"]
+authors = [
+    "TheBoatyMcBoatFace <bentley.hensel@civicactions.com>",
+    "CivicActions",
+    "https://civicactions.com"
+]
 edition = "2023"
 
 [dependencies]
