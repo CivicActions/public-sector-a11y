@@ -4,24 +4,29 @@ on:
     - cron: "5 1/6 * * *"
   workflow_dispatch:
 
-jobs:
-  sync:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-      - name: Authenticate with Google Cloud
-        uses: google-github-actions/auth@v1
-        with:
-          service_account_key: ${{ secrets.GOOGLE_CLOUD_KEY }}
-      - name: Export BigQuery table to CSV
-        run: |
-          gcloud auth activate-service-account --key-file=${GOOGLE_CLOUD_KEY}
-          bq --quiet --project_id=${PROJECT_ID} extract --destination_format=CSV ${DATASET}.${TABLE} ${CSV_PATH}
-      - name: Commit and push changes
-        run: |
-          git config --local user.email "github-actions@github.com"
-          git config --local user.name "GitHub Actions"
-          git add ${CSV_PATH}
-          git commit -m "Sync with BigQuery table"
-          git push
+  jobs:
+    sync:
+      name: Big Query to Github CSV
+      runs-on: ubuntu-latest
+      steps:
+        - name: Checkout code
+          uses: actions/checkout@v3
+
+        - id: "auth"
+          name: Authenticate with Google Cloud
+          uses: google-github-actions/auth@v1
+          with:
+            credentials_json: ${{ secrets.GOOGLE_CLOUD_KEY }}
+
+        - name: Load CSV to BigQuery
+          run: |
+            gcloud auth activate-service-account ${{ secrets.GOOGLE_SERVICE_ACCOUNT }} --key-file=${{ steps.auth.outputs.credentials_file_path }}
+            bq extract --destination_format=CSV --field_delimiter=',' ${{ vars.PROJECT_ID }}:${{ vars.DATASET }}.${{ vars.TABLE }} ${{ vars.CSV_PATH }}
+
+        - name: Commit and push changes
+          run: |
+            git config --local user.email "github-actions@github.com"
+            git config --local user.name "GitHub Actions"
+            git add ${{ vars.CSV_PATH }}
+            git commit -m "Sync with BigQuery table"
+            git push
