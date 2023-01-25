@@ -19,8 +19,8 @@ jobs:
       - name: Authenticate with Google Cloud
         uses: google-github-actions/auth@v1
         with:
-          service_account_key: ${{ secrets.GOOGLE_CLOUD_KEY }}
-          service_account: ${{ secrets.GOOGLE_SERVICE_ACCOUNT }}
+          credentials_json: ${{ secrets.GOOGLE_CLOUD_KEY }}
+        #  service_account: ${{ secrets.GOOGLE_SERVICE_ACCOUNT }}
       - name: Load CSV to BigQuery
         run: |
           gcloud auth activate-service-account --key-file=${GOOGLE_CLOUD_KEY}
