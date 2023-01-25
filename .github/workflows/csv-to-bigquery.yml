@@ -33,4 +33,4 @@ jobs:
       - name: Load CSV to BigQuery
         run: |
           gcloud auth activate-service-account ${{ secrets.GOOGLE_SERVICE_ACCOUNT }} --key-file=${{ steps.auth.outputs.credentials_file_path }}
-          bq load --source_format=CSV --skip_leading_rows=1 ${{ vars.PROJECT_ID }}:${{ vars.DATASET }}.${{ vars.TABLE }} ${{ vars.CSV_PATH }} agency_id:STRING,name:STRING,site_error:BOOLEAN,scan_active:BOOLEAN,domain:STRING
+          bq load --source_format=CSV --skip_leading_rows=1 --schema_update_option=ALLOW_FIELD_RELAXATION ${{ vars.PROJECT_ID }}:${{ vars.DATASET }}.${{ vars.TABLE }} ${{ vars.CSV_PATH }} agency_id:STRING,name:STRING,site_error:BOOLEAN,scan_active:BOOLEAN,domain:STRING
