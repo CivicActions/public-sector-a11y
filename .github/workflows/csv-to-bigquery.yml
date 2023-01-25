@@ -1,6 +1,12 @@
 # Syncs CSV file at data/domains/domains.csv to BigQuery Table
 #
+# GCloud Docs:
+#         - https://cloud.google.com/sdk/gcloud/reference/auth/activate-service-account
+#         - https://github.com/google-github-actions/auth
+#         - https://github.com/google-github-actions/auth
 #
+#           - GCloud CLI | BigQuery Reference
+#           - https://cloud.google.com/bigquery/docs/reference/bq-cli-reference
 #
 #
 name: Push CSV to BigQuery
@@ -26,4 +32,4 @@ jobs:
       - name: Load CSV to BigQuery
         run: |
           gcloud auth activate-service-account ${{ secrets.GOOGLE_SERVICE_ACCOUNT }} --key-file=${{ steps.auth.outputs.credentials_file_path }}
-          bq --quiet --project_id=${PROJECT_ID} load --source_format=CSV ${DATASET}.${TABLE} ${CSV_PATH}
+          bq load --source_format=CSV ${{ vars.PROJECT_ID }}:${{ vars.DATASET }}.${{ vars.TABLE }} ${{ vars.CSV_PATH }}
