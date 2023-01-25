@@ -3,7 +3,7 @@
 # GCloud Docs:
 #         - https://cloud.google.com/sdk/gcloud/reference/auth/activate-service-account
 #         - https://github.com/google-github-actions/auth
-#         - https://github.com/google-github-actions/auth
+#
 #
 #           - GCloud CLI | BigQuery Reference
 #           - https://cloud.google.com/bigquery/docs/reference/bq-cli-reference
@@ -23,13 +23,14 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
+
       - id: "auth"
         name: Authenticate with Google Cloud
         uses: google-github-actions/auth@v1
         with:
           credentials_json: ${{ secrets.GOOGLE_CLOUD_KEY }}
-        #  service_account: ${{ secrets.GOOGLE_SERVICE_ACCOUNT }}
+
       - name: Load CSV to BigQuery
         run: |
           gcloud auth activate-service-account ${{ secrets.GOOGLE_SERVICE_ACCOUNT }} --key-file=${{ steps.auth.outputs.credentials_file_path }}
-          bq load --source_format=CSV ${{ vars.PROJECT_ID }}:${{ vars.DATASET }}.${{ vars.TABLE }} ${{ vars.CSV_PATH }}
+          bq load --source_format=CSV --replace=true --skip_leading_rows=1 --autodetect=true ${{ vars.PROJECT_ID }}:${{ vars.DATASET }}.${{ vars.TABLE }} ${{ vars.CSV_PATH }}
