@@ -12,16 +12,18 @@ on:
 
 jobs:
   sync:
+    name: Upload CSV to BigQuery
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-      - name: Authenticate with Google Cloud
+      - id: "auth"
+        name: Authenticate with Google Cloud
         uses: google-github-actions/auth@v1
         with:
           credentials_json: ${{ secrets.GOOGLE_CLOUD_KEY }}
         #  service_account: ${{ secrets.GOOGLE_SERVICE_ACCOUNT }}
       - name: Load CSV to BigQuery
         run: |
-          gcloud auth activate-service-account --key-file=${GOOGLE_CLOUD_KEY}
+          gcloud auth activate-service-account ${{ secrets.GOOGLE_SERVICE_ACCOUNT }} --key-file=${{ steps.auth.outputs.credentials_file_path }}
           bq --quiet --project_id=${PROJECT_ID} load --source_format=CSV ${DATASET}.${TABLE} ${CSV_PATH}
