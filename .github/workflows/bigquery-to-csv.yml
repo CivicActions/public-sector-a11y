@@ -1,32 +1,44 @@
+# Syncs CSV file at data/domains/domains.csv to BigQuery Table
+#
+# GCloud Docs:
+#         - https://cloud.google.com/sdk/gcloud/reference/auth/activate-service-account
+#         - https://github.com/google-github-actions/auth
+#
+#
+#           - GCloud CLI | BigQuery Reference
+#           - https://cloud.google.com/bigquery/docs/reference/bq-cli-reference
+#
+#
+
 name: Sync BigQuery to CSV
 on:
   schedule:
     - cron: "5 1/6 * * *"
   workflow_dispatch:
 
-  jobs:
-    sync:
-      name: Big Query to Github CSV
-      runs-on: ubuntu-latest
-      steps:
-        - name: Checkout code
-          uses: actions/checkout@v3
+jobs:
+  sync:
+  name: Big Query to Github CSV
+  runs-on: ubuntu-latest
+  steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
 
-        - id: "auth"
-          name: Authenticate with Google Cloud
-          uses: google-github-actions/auth@v1
-          with:
-            credentials_json: ${{ secrets.GOOGLE_CLOUD_KEY }}
+    - id: "auth"
+      name: Authenticate with Google Cloud
+      uses: google-github-actions/auth@v1
+      with:
+        credentials_json: ${{ secrets.GOOGLE_CLOUD_KEY }}
 
-        - name: Load CSV to BigQuery
-          run: |
-            gcloud auth activate-service-account ${{ secrets.GOOGLE_SERVICE_ACCOUNT }} --key-file=${{ steps.auth.outputs.credentials_file_path }}
-            bq extract --destination_format=CSV --field_delimiter=',' ${{ vars.PROJECT_ID }}:${{ vars.DATASET }}.${{ vars.TABLE }} ${{ vars.CSV_PATH }}
+    - name: Load CSV to BigQuery
+      run: |
+        gcloud auth activate-service-account ${{ secrets.GOOGLE_SERVICE_ACCOUNT }} --key-file=${{ steps.auth.outputs.credentials_file_path }}
+        bq extract --destination_format=CSV --field_delimiter=',' ${{ vars.PROJECT_ID }}:${{ vars.DATASET }}.${{ vars.TABLE }} ${{ vars.CSV_PATH }}
 
-        - name: Commit and push changes
-          run: |
-            git config --local user.email "github-actions@github.com"
-            git config --local user.name "GitHub Actions"
-            git add ${{ vars.CSV_PATH }}
-            git commit -m "Sync with BigQuery table"
-            git push
+    - name: Commit and push changes
+      run: |
+        git config --local user.email "github-actions@github.com"
+        git config --local user.name "GitHub Actions"
+        git add ${{ vars.CSV_PATH }}
+        git commit -m "Sync with BigQuery table"
+        git push
