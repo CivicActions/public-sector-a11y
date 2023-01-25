@@ -1,4 +1,4 @@
-# Syncs CSV file at data/domains/domains.csv to BigQuery Table
+#       Downloads BigQuery Table to GitHub
 #
 # GCloud Docs:
 #         - https://cloud.google.com/sdk/gcloud/reference/auth/activate-service-account
@@ -7,6 +7,12 @@
 #
 #           - GCloud CLI | BigQuery Reference
 #           - https://cloud.google.com/bigquery/docs/reference/bq-cli-reference
+#
+#           NOTE:
+#                   Google BigQuery does not allow direct download. We must first download to Google Cloud Buckets and then download from there.
+#                       https://cloud.google.com/bigquery/docs/exporting-data#export_limitations
+#
+#                   Put this on hold for the time being
 #
 #
 
@@ -29,13 +35,17 @@ jobs:
         uses: google-github-actions/auth@v1
         with:
           credentials_json: ${{ secrets.GOOGLE_CLOUD_KEY }}
-
-      - name: Load CSV to BigQuery
+      #
+      #       Google BigQuery does not allow direct downloads of tables
+      #       SEE NOTE IN HEADER
+      #
+      #
+      - name: Export BigQuery Data
         run: |
           gcloud auth activate-service-account ${{ secrets.GOOGLE_SERVICE_ACCOUNT }} --key-file=${{ steps.auth.outputs.credentials_file_path }}
           bq extract --destination_format=CSV --field_delimiter=',' ${{ vars.PROJECT_ID }}:${{ vars.DATASET }}.${{ vars.TABLE }} ${{ vars.CSV_PATH }}
 
-      - name: Commit and push changes
+      - name: Commit and Push changes
         run: |
           git config --local user.email "github-actions@github.com"
           git config --local user.name "GitHub Actions"
