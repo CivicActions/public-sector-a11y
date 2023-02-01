@@ -18,8 +18,8 @@
 
 name: Sync BigQuery to CSV
 on:
-  schedule:
-    - cron: "5 1/6 * * *"
+#  schedule:
+#    - cron: "5 1/6 * * *"
   workflow_dispatch:
 
 jobs:
