@@ -1,3 +1,5 @@
 agency_id,name,site_error,scan_active,domain
 3e097c11-2de6-4b8c-887d-9e2aa58701c4,CivicActions Main Website,F,T,civicactions.com
 3e097c11-2de6-4b8c-887d-9e2aa58701c4,CivicActions Accessability Website,F,T,accessibility.civicactions.com
+,National Science Foundation,F,T,nsf.gov
+,Beta National Science Foundation,,T,beta.nsf.gov
