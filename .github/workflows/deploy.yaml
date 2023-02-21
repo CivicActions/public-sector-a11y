@@ -5,7 +5,7 @@ name: Build & Deploy A11yWatch
 on:
   push:
     branches:
-      - main
+      - dev
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}
@@ -24,7 +24,7 @@ jobs:
         with:
           repository: a11ywatch/web
           ref: 22bcd78ba5df25f40cbf99e5e8bd8c3b790674fb
-      
+
       - name: TODO temporarily patch Dockerfile, remove when https://github.com/a11ywatch/web/pull/98 in stable commit.
         run: curl -so Dockerfile https://raw.githubusercontent.com/grugnog/web/build-args/Dockerfile
 
