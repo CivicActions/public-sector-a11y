@@ -6,7 +6,7 @@ spec:
   template:
     spec:
       containers:
-        - image: docker pull ghcr.io/civicactions/public-sector-a11y_connect:main
+        - image: ghcr.io/civicactions/public-sector-a11y_connect:main
           ports:
             - containerPort: 8000
           env:
@@ -17,7 +17,7 @@ spec:
             - name: GOOGLE_DATASET
               value: ${{ secrets.GOOGLE_DATASET }}
             - name: A11Y_URL
-              value: https://a11ywatch-frontend.public-sector-a11y.app.civicactions.net
+              value: https://a11ywatch-backend.public-sector-a11y.app.civicactions.net
             - name: A11Y_JWT
               value: ${{ secrets.A11Y_JWT }}
             - name: GOOGLE_APPLICATION_CREDENTIALS
