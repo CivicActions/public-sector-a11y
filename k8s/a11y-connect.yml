@@ -1,0 +1,24 @@
+apiVersion: serving.knative.dev/v1
+kind: Service
+metadata:
+  name: a11y-connect
+spec:
+  template:
+    spec:
+      containers:
+        - image: docker pull ghcr.io/civicactions/public-sector-a11y_connect:main
+          ports:
+            - containerPort: 8000
+          env:
+            - name: API_KEY
+              value: ${{ secrets.API_KEY }}
+            - name: GOOGLE_PROJECT_ID
+              value: ${{ secrets.GOOGLE_PROJECT_ID }}
+            - name: GOOGLE_DATASET
+              value: ${{ secrets.GOOGLE_DATASET }}
+            - name: A11Y_URL
+              value: https://a11ywatch-frontend.public-sector-a11y.app.civicactions.net
+            - name: A11Y_JWT
+              value: ${{ secrets.A11Y_JWT }}
+            - name: GOOGLE_APPLICATION_CREDENTIALS
+              value: ${{ secrets.GOOGLE_CLOUD_KEY }}
