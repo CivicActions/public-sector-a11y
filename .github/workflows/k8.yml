@@ -1,0 +1,15 @@
+name: Build & Deploy A11yWatch
+on:
+  push:
+    branches:
+      - dev_k8-updates
+
+jobs:
+  deploy:
+    name: Deploy to Namespace
+    runs-on: self-hosted
+    steps:
+      - uses: actions/checkout@v3
+      - uses: azure/setup-kubectl@v3
+      - name: Deploy
+        run: kubectl apply --namespace=public-sector-a11y -f k8s
