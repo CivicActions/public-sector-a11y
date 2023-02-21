@@ -2,7 +2,7 @@
 
 _Proof of concept for large scale, government scans_
 
-[![Build & Deploy A11yWatch](https://github.com/CivicActions/public-sector-a11y/actions/workflows/deploy.yaml/badge.svg)](https://github.com/CivicActions/public-sector-a11y/actions/workflows/deploy.yaml)
+[![🐋 A11y K8 Deploy](https://github.com/CivicActions/public-sector-a11y/actions/workflows/k8.yml/badge.svg)](https://github.com/CivicActions/public-sector-a11y/actions/workflows/k8.yml)
 
 ## Overview
 
