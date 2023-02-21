@@ -6,7 +6,7 @@ spec:
   template:
     spec:
       containers:
-        - image: docker pull ghcr.io/civicactions/public-sector-a11y_connect:main
+        - image: ghcr.io/civicactions/public-sector-a11y_connect:main
           ports:
             - containerPort: 8000
           env:
