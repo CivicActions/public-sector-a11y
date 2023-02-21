@@ -2,7 +2,7 @@ name: Build & Deploy A11yWatch
 on:
   push:
     branches:
-      - dev_k8-updates
+      - main
 
 jobs:
   deploy:
