@@ -1,7 +1,7 @@
 apiVersion: serving.knative.dev/v1
 kind: Service
 metadata:
-  name: a11y-connect
+  name: a11ywatch-connect
 spec:
   template:
     spec:
