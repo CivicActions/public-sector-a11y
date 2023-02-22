@@ -15,8 +15,6 @@ spec:
             - name: REDIS_HOST
               value: redis
         - image: bitnami/redis:6.0
-          ports:
-            - containerPort: 6379
           env:
             - name: REDIS_MASTER_PASSWORD
               value: ${{ secrets.REDISPASSWORD }}
