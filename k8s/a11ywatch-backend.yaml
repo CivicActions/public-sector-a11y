@@ -6,6 +6,17 @@ spec:
   template:
     spec:
       containers:
-        - image: a11ywatch/a11ywatch:latest
+        - image: a11ywatch/core:latest
           ports:
             - containerPort: 3280
+          env:
+            - name: REDIS_CLIENT
+              value: redis://redis:6379,password=${{ secrets.REDISPASSWORD }}
+            - name: REDIS_HOST
+              value: redis
+        - image: bitnami/redis:6.0
+          ports:
+            - containerPort: 6379
+          env:
+            - name: REDIS_MASTER_PASSWORD
+              value: ${{ secrets.REDISPASSWORD }}
