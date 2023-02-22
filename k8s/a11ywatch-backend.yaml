@@ -9,12 +9,17 @@ spec:
         - image: a11ywatch/core:latest
           ports:
             - containerPort: 3280
+          networks:
+            - front
+            - internal
           env:
             - name: REDIS_CLIENT
-              value: redis://redis:6379
+              value: redis://redis:6379,password=${{ secrets.REDISPASSWORD }}
             - name: REDIS_HOST
               value: redis
         - image: bitnami/redis:6.0
+          networks:
+            - internal
           env:
-            - name: ALLOW_EMPTY_PASSWORD
-              value: yes
+            - name: REDIS_MASTER_PASSWORD
+              value: ${{ secrets.REDISPASSWORD }}
