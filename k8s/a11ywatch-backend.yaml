@@ -11,10 +11,10 @@ spec:
             - containerPort: 3280
           env:
             - name: REDIS_CLIENT
-              value: redis://redis:6379,password=${{ secrets.REDISPASSWORD }}
+              value: redis://redis:6379
             - name: REDIS_HOST
               value: redis
         - image: bitnami/redis:6.0
           env:
-            - name: REDIS_MASTER_PASSWORD
-              value: ${{ secrets.REDISPASSWORD }}
+            - name: ALLOW_EMPTY_PASSWORD
+              value: yes
