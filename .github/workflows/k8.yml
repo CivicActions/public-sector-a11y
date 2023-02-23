@@ -40,5 +40,11 @@ jobs:
     needs: deploy
     runs-on: self-hosted
     steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v3
+
+      - name: Setup Kubctl
+        uses: azure/setup-kubectl@v3
+
       - name: List Namespace Details
         run: kubectl get all -n public-sector-a11y
