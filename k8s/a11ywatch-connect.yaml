@@ -6,7 +6,8 @@ spec:
   template:
     spec:
       containers:
-        - image: ghcr.io/civicactions/public-sector-a11y_connect:main
+        - image: theboatymcboatface/rusty_connect:main
+          # ghcr.io/civicactions/public-sector-a11y_connect:main
           ports:
             - containerPort: 8000
           env:
