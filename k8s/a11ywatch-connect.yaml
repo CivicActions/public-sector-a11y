@@ -17,8 +17,6 @@ spec:
             - name: GOOGLE_DATASET
               value: ${{ secrets.GOOGLE_DATASET }}
             - name: A11Y_URL
-              value: https://a11ywatch-backend.public-sector-a11y.app.civicactions.net
-            - name: A11Y_JWT
-              value: ${{ secrets.A11Y_JWT }}
+              value: https://a11ywatch-backend.public-sector-a11y.app.civicactions.net/api
             - name: GOOGLE_APPLICATION_CREDENTIALS
-              value: ${{ secrets.GOOGLE_CLOUD_KEY }}
+              value: ${{ secrets.GOOGLE_SERVICE_ACCOUNT }}
