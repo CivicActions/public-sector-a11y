@@ -34,5 +34,11 @@ jobs:
 
       - name: Deploy
         run: kubectl apply --namespace=public-sector-a11y -f k8s
-#      - name: List Namespace Details
-#        run: kubectl get all -n public-sector-a11y
+
+  list:
+    name: list resources
+    needs: deploy
+    runs-on: self-hosted
+    steps:
+      - name: List Namespace Details
+        run: kubectl get all -n public-sector-a11y
