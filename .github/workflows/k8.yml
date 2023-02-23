@@ -18,7 +18,6 @@ jobs:
 
       - name: Destroy existing pods
         run: |
-          kubectl delete services -n public-sector-a11y -l app=a11ywatch-frontend,app=a11ywatch-backend,app=a11y-connect,app=a11ywatch-connect,app=civic-rust --cascade=orphan
           kubectl delete deployments -n public-sector-a11y -l app=a11ywatch-frontend,app=a11ywatch-backend,app=a11y-connect,app=a11ywatch-connect
           kubectl delete pods -n public-sector-a11y -l app=a11ywatch-frontend,app=a11ywatch-backend,app=a11y-connect,app=a11ywatch-connect --force --grace-period=0
 
