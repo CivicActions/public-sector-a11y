@@ -6,7 +6,7 @@ spec:
   template:
     spec:
       containers:
-        - image: a11ywatch/a11ywatch-core:latest
+        - image: a11ywatch/a11ywatch:latest
           ports:
             - containerPort: 3280
         #   env:
