@@ -18,6 +18,5 @@ jobs:
 
       - name: Deploy
         run: kubectl apply --namespace=public-sector-a11y -f k8s
-
-      - name: List Namespace Details
-        run: kubectl get all -n public-sector-a11y
+#      - name: List Namespace Details
+#        run: kubectl get all -n public-sector-a11y
