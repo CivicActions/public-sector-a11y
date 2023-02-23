@@ -6,8 +6,25 @@ on:
   workflow_dispatch:
 
 jobs:
+  destroy:
+    name: Destroy existing pods
+    runs-on: self-hosted
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v3
+
+      - name: Setup Kubctl
+        uses: azure/setup-kubectl@v3
+
+      - name: Destroy existing pods
+        run: |
+          kubectl delete services -n public-sector-a11y -l app=a11ywatch-frontend,app=a11ywatch-backend,app=a11y-connect,app=a11ywatch-connect,app=civic-rust --cascade=false
+          kubectl delete deployments -n public-sector-a11y -l app=a11ywatch-frontend,app=a11ywatch-backend,app=a11y-connect,app=a11ywatch-connect
+          kubectl delete pods -n public-sector-a11y -l app=a11ywatch-frontend,app=a11ywatch-backend,app=a11y-connect,app=a11ywatch-connect --force --grace-period=0
+
   deploy:
-    name: Deploy to Namespace
+    name: Deploy most recent version
+    needs: destroy
     runs-on: self-hosted
     steps:
       - name: Checkout Repo
