@@ -47,7 +47,7 @@ jobs:
       - name: Select
         run: |
           bq query \
-          'SELECT id, name, scan_active, url
+          'SELECT *
           FROM ${{ vars.PROJECT_ID }}:${{ vars.DATASET }}.${{ vars.TABLE }}' > ${{ vars.CSV_PATH }}
 
       # https://cloud.google.com/bigquery/docs/bq-command-line-tool
