@@ -18,8 +18,8 @@
 
 name: Sync BigQuery to CSV
 on:
-#  schedule:
-#    - cron: "5 1/6 * * *"
+  #  schedule:
+  #    - cron: "5 1/6 * * *"
   workflow_dispatch:
 
 jobs:
@@ -43,7 +43,15 @@ jobs:
       - name: Export BigQuery Data
         run: |
           gcloud auth activate-service-account ${{ secrets.GOOGLE_SERVICE_ACCOUNT }} --key-file=${{ steps.auth.outputs.credentials_file_path }}
-          bq extract --destination_format=CSV --field_delimiter=',' ${{ vars.PROJECT_ID }}:${{ vars.DATASET }}.${{ vars.TABLE }} ${{ vars.CSV_PATH }}
+          bq query --use_legacy_sql=false 'SELECT id, name, scan_active, url from ${{ vars.PROJECT_ID }}:${{ vars.DATASET }}.${{ vars.TABLE }}' > data/domains/domains.csv
+      # https://cloud.google.com/bigquery/docs/bq-command-line-tool
+      #          bq query --use_legacy_sql=false \
+      #          'SELECT
+      #             COUNT(*)
+      #           FROM
+      #             `bigquery-public-data`.samples.shakespeare'
+      #
+      #          extract --destination_format=CSV --field_delimiter=',' ${{ vars.PROJECT_ID }}:${{ vars.DATASET }}.${{ vars.TABLE }} ${{ vars.CSV_PATH }}
 
       - name: Commit and Push changes
         run: |
