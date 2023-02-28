@@ -43,7 +43,7 @@ jobs:
       - name: Export BigQuery Data
         run: |
           gcloud auth activate-service-account ${{ secrets.GOOGLE_SERVICE_ACCOUNT }} --key-file=${{ steps.auth.outputs.credentials_file_path }}
-          bq query --use_legacy_sql=false \
+          bq query \
           'SELECT id, name, scan_active, url
           FROM ${{ vars.PROJECT_ID }}:${{ vars.DATASET }}.${{ vars.TABLE }}' > ${{ vars.CSV_PATH }}
       # https://cloud.google.com/bigquery/docs/bq-command-line-tool
